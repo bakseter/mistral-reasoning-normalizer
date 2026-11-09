@@ -6,6 +6,8 @@ WORKDIR /app
 
 RUN apk add --no-cache ca-certificates
 
+COPY go.mod ./
+
 COPY main.go ./
 RUN go build -o ./out/executable .
 
