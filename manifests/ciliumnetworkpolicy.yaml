@@ -1,0 +1,19 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: mistral-reasoning-normalizer
+  namespace: agentgateway-system
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: mistral-reasoning-normalizer
+
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: agentgateway-system
+            app.kubernetes.io/name: agentgateway
+      toPorts:
+        - ports:
+            - port: '8080'
+              protocol: TCP

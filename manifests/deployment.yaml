@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mistral-reasoning-normalizer
+  namespace: agentgateway-system
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: mistral-reasoning-normalizer
+          image: ghcr.io/bakseter/mistral-reasoning-normalizer:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: UPSTREAM
+              value: 'https://api.mistral.ai'
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+      securityContext:
+        fsGroup: 65534
+        runAsNonRoot: true
+        runAsGroup: 65534
+        runAsUser: 65534
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups:
+          - 65534

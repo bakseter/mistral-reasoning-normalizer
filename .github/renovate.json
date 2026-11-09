@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigestsToSemver"],
+  "commitMessagePrefix": "⬆️",
+  "prHourlyLimit": 0,
+  "minimumReleaseAge": "7 days",
+  "prCreation": "not-pending",
+  "rangeStrategy": "pin",
+  "packageRules": [
+    {
+      "description": "Automerge all updates",
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "automerge": true
+    }
+  ]
+}
